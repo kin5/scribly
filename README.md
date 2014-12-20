@@ -23,8 +23,8 @@ The object comes with one property and several methods:
 
 * `save(parent)`
   * updates the elements text
-  * provide a parent element to search through or leave blank to save all within the document
+  * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
 
 * `close(parent)`
   * reverts the elements back to their original state, saves no edits
-  * provide a parent element to search through or leave blank to save all within the document
+  * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
