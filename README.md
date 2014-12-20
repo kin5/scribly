@@ -7,7 +7,9 @@ Use
 ===
 
 The object comes with one property and several methods:
-* ```storeLocally```JavaScript
+* ```javascript
+* storeLocally
+* ```
   * this tells scribly whether to store the edits in local storage
   * by default this is set to true
 
