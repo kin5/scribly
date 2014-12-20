@@ -7,9 +7,7 @@ var scribly = {
 	edit: function(selector, inputType) {
 		var elements = document.querySelectorAll(selector);
 		var elementSIdName, elementInput; //SId is short for Scribly ID
-
-		var i = 0;
-		for(i=0; i<elements.length; i++) {
+		for(var i=0; i<elements.length; i++) {
 
 			//this section attempts to create a specific-as-possible
 			//ID for Scribly to use when storing the data in the session
@@ -51,7 +49,7 @@ var scribly = {
 
     	//can use a parent element object to sift through to decrease workload
     	//or to only save edited fields in a specific place while preserving others
-		if(parent != null) {
+		if(parent !== null) {
 			openElements = parent.getElementsByTagName('*');
 		}
 		else {
@@ -59,9 +57,7 @@ var scribly = {
 		}
 
 		if(openElements.length > 1) {
-			
-			var i = 0;
-			for(i=0; i<openElements.length; i++) {
+			for(var i=0; i<openElements.length; i++) {
 				if(!openElements[i].hasAttribute('data-sid') || openElements[i].children.length == 0) {
 					continue;
 				}
