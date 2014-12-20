@@ -1,116 +1,118 @@
 var scribly = {
-	
-	storeLocally : true,
 
-	editByTag : function(tag, inputType) {
-		var elements = document.getElementsByTagName(tag);
+	//	selector: string. required. A CSS selector to choose which objects to edit
+	//
+	//	inputType: string. optional. The type of editable input to use with your element.
+	//	Current options are 'text' and 'textarea'. Defaults to 'text'
+	edit: function(selector, inputType) {
+		var elements = document.querySelectorAll(selector);
+		var elementSIdName, elementInput; //SId is short for Scribly ID
 
+		var i = 0;
 		for(i=0; i<elements.length; i++) {
-			window.localStorage.setItem(tag + '-' + i, elements[i].innerHTML);
-			elements[i].setAttribute('data-sid', tag + '-' + i);
-			elements[i].innerHTML = selectEditorInput(inputType, tag + '-' + i);
-		}
 
-		for(i=0; i<elements.length; i++) {
-			document.getElementById(tag + '-' + i).value = window.localStorage.getItem(tag + '-' + i);
-		}
+			//this section attempts to create a specific-as-possible
+			//ID for Scribly to use when storing the data in the session
+			if(elements[i].hasAttribute('id')) {
+				elementSIdName = elements[i].getAttribute('id');
+			}
+			else if(elements[i].hasAttribute('class')) {
+				elementSIdName = elements[i].getAttribute('class');
+			}
+			else {
+				//if no id or class exists on the element, use tag
+				elementSIdName = elements[i].tagName;
+			}
 
+			window.sessionStorage.setItem(elementSIdName + '-' + i, elements[i].innerHTML);
+			elements[i].setAttribute('data-sid', elementSIdName + '-' + i);
+
+			//this section decides which editable element
+			//to place in the selected element(s)
+			if(inputType === 'text') {
+				elementInput = '<input type="text" class="" id="' + elementSIdName + '-' + i + '"/>';
+			}
+			else if(inputType === 'textarea') {
+				elementInput = '<textarea class="" id="' + elementSIdName + '-' + i + '"></textarea>';
+			}
+			else {
+				//return a normal text input if none given
+				elementInput = '<input type="text" class="" id="' + elementSIdName + '-' + i + '"/>';
+			}
+
+			elements[i].innerHTML = elementInput;
+			document.getElementById(elementSIdName + '-' + i).value = window.sessionStorage.getItem(elementSIdName + '-' + i);
+		}
 	},
-	editByClass : function(className, inputType) {
-		var elements = document.getElementsByClassName(className);
 
-		for(i=0; i<elements.length; i++) {
-			window.localStorage.setItem(className + '-' + i, elements[i].innerHTML);
-			elements[i].setAttribute('data-sid', className + '-' + i);
-			elements[i].innerHTML = selectEditorInput(inputType, className + '-' + i);
-		}
+	//	parent: optional. An HTML element. Defaults to the document
+	save: function(parent) {
+    	var openElements, sId, openElementInput, sIdStoredValue, sIdNewValue;
 
-		for(i=0; i<elements.length; i++) {
-			document.getElementById(className + '-' + i).value = window.localStorage.getItem(className + '-' + i);
-		}
-	},
-	editById : function(id, inputType) {
-		var element = document.getElementById(id);
-
-		window.localStorage.setItem(id + '-0', element.innerHTML);
-		element.setAttribute('data-sid', id + '-0');
-		element.innerHTML = selectEditorInput(inputType, id + '-0');
-		document.getElementById(id + '-0').value = window.localStorage.getItem(id + '-0');
-	},
-	save : function(parent) {
+    	//can use a parent element object to sift through to decrease workload
+    	//or to only save edited fields in a specific place while preserving others
 		if(parent != null) {
-			var openElements = parent.getElementsByTagName('*');
+			openElements = parent.getElementsByTagName('*');
 		}
 		else {
-			var openElements = document.getElementsByTagName('*');
+			openElements = document.getElementsByTagName('*');
 		}
 
 		if(openElements.length > 1) {
+			
+			var i = 0;
 			for(i=0; i<openElements.length; i++) {
-				if(openElements[i].hasAttribute('data-sid')) {
-					var sId = openElements[i].getAttribute('data-sid');
-					var openElementInput = openElements[i].children[0];
-
-					var sIdStoredValue = window.localStorage.getItem(sId);
-					var sIdNewValue = openElementInput.value;
-
-					if(sIdStoredValue != sIdNewValue) {
-						window.localStorage.setItem(sId, sIdNewValue);
-					}
-					openElements[i].innerHTML = window.localStorage.getItem(sId);
-
-					if(this.storeLocally == false) {
-						window.localStorage.removeItem(sId);
-					}
+				if(!openElements[i].hasAttribute('data-sid') || openElements[i].children.length == 0) {
+					continue;
 				}
+				
+				sId = openElements[i].getAttribute('data-sid');
+				openElementInput = openElements[i].children[0];
+
+				sIdStoredValue = window.sessionStorage.getItem(sId);
+				sIdNewValue = openElementInput.value;
+
+				if(sIdStoredValue != sIdNewValue) {
+					window.sessionStorage.setItem(sId, sIdNewValue);
+				}
+				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
 			}
 		}
 		else {
 			if(openElements.hasAttribute('data-sid')) {
-				var sId = openElements.getAttribute('data-sid');
-				var openElementInput = openElements.children[0];
+				sId = openElements.getAttribute('data-sid');
+				openElementInput = openElements.children[0];
 
-				var sIdStoredValue = window.localStorage.getItem(sId);
-				var sIdNewValue = openElementInput.value;
+				sIdStoredValue = window.sessionStorage.getItem(sId);
+				sIdNewValue = openElementInput.value;
 
 				if(sIdStoredValue != sIdNewValue) {
-					window.localStorage.setItem(sId, sIdNewValue);
+					window.sessionStorage.setItem(sId, sIdNewValue);
 				}
-				openElements[i].innerHTML = window.localStorage.getItem(sId);
-
-				if(this.storeLocally == false) {
-					window.localStorage.removeItem(sId);
-				}
+				openElements.innerHTML = window.sessionStorage.getItem(sId);
 			}
 		}
 	},
-	cancel : function(parent) {
+
+	//	parent: optional. An HTML element. Defaults to the document
+	cancel: function(parent) {
+    	var openElements;
+
+    	//parent capability similar to save
 		if(parent != null) {
-			var openElements = parent.getElementsByTagName('*');
+			openElements = parent.getElementsByTagName('*');
 		}
 		else {
-			var openElements = document.getElementsByTagName('*');
+			openElements = document.getElementsByTagName('*');
 		}
 
+		var i = 0;
 		for(i=0; i<openElements.length; i++) {
 			if(openElements[i].hasAttribute('data-sid')) {
 				var sId = openElements[i].getAttribute('data-sid');
-				openElements[i].innerHTML = window.localStorage.getItem(sId);
-				window.localStorage.removeItem(sId);
+				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
+				window.sessionStorage.removeItem(sId);
 			}
 		}
 	}
 };
-
-function selectEditorInput(type, id) {
-	if(type === 'text') {
-		return '<input type="text" class="" id="' + id + '"/>';
-	}
-	else if(type === 'textarea') {
-		return '<textarea class="" id="' + id + '"></textarea>';
-	}
-	else {
-		//return a normal text input, catch all
-		return '<input type="text" class="" id="' + id + '"/>';
-	}
-}
