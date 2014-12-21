@@ -40,7 +40,7 @@ describe('scribly', function() {
 		});
 
 		it('should store elements new value in sessionStorage with a final sId', function() {
-			expect(window.sessionStorage.getItem('p-id-0')).toEqual(''); //because the input box contained no value, it will be empty
+			expect(window.sessionStorage.getItem('p-id-0')).toEqual('text to edit');
 		})
 
 	});
