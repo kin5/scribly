@@ -8,8 +8,9 @@ Features
 
 The object comes with several methods:
 
-* `edit(selector, inputType)`
+* `edit(selector, parent, inputType)`
   * provide the CSS selector of the element(s) that you want editable
+  * provide a DOM element as a parent element to search in for the selector
   * use `text` or `textarea` for the inputType, defaults to `text`
 
 * `save(parent)`
@@ -36,9 +37,11 @@ To provide the user with an option to opt-out of their current edits, you could 
 ```
 This will reset all editable elements and their `innerHTML` providing no changes. It will also not store any of the edits.
 
-Scribly also provides functionality for cancelling or saving certain editable elements while leaving others open by passing a DOM element to the `parent` parameter.
+Scribly also provides functionality for editing, cancelling and saving certain elements while leaving others unaffected by passing a DOM element to the `parent` parameter.
 ```javascript
 var div1 = document.getElementById('div1');
-scribly.save(div1);
+scribly.edit('p', div1); //to edit 
+scribly.save(div1); //to save
+scrible.cancel(div1); //to cancel
 ```
-This would save all of the editable elements only in `div1`, leaving any others open for editing.
+This would edit, save, and close elements that are only in `div1`, leaving any others open for editing.
