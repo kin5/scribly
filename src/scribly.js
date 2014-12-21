@@ -2,11 +2,20 @@ var scribly = {
 
 	//	selector: string. required. A CSS selector to choose which objects to edit
 	//
+	//	parent: DOM element. optional. The parent element to create editables in.
+	//	Defaults to document
+	//
 	//	inputType: string. optional. The type of editable input to use with your element.
 	//	Current options are 'text' and 'textarea'. Defaults to 'text'
-	edit: function(selector, inputType) {
-		var elements = document.querySelectorAll(selector);
-		var elementSIdName, elementInput; //SId is short for Scribly ID
+	edit: function(selector, parent, inputType) {
+		var elements, parentElement, elementSIdName, elementInput; //SId is short for Scribly ID
+
+		if(parent != null)
+			parentElement = parent;
+		else
+			parentElement = document;
+
+		elements = parentElement.querySelectorAll(selector);
 
 		var i = 0;
 		for(i=0; i<elements.length; i++) {
@@ -41,7 +50,7 @@ var scribly = {
 			}
 
 			elements[i].innerHTML = elementInput;
-			document.getElementById(elementSIdName + '-' + i).value = window.sessionStorage.getItem(elementSIdName + '-' + i);
+			parentElement.getElementById(elementSIdName + '-' + i).value = window.sessionStorage.getItem(elementSIdName + '-' + i);
 		}
 	},
 
