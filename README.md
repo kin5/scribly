@@ -1,7 +1,7 @@
 scribly
 =======
 
-Scribly is a javascript object made to allow for the dynamic creation of editable text elements within a webpage. It includes storing the values of the edited fields in the `sessionStorage` to send back to the server (yourself). Use it to give the user control over their content without messing with the bulk of a CMS.
+Scribly is a javascript object made to allow for the dynamic creation of editable text elements within a webpage. It includes storing the values of the edited fields in the `sessionStorage` to send back to the server (yourself). Give the user control over their content without messing with the bulk of a CMS.
 
 Features
 ========
