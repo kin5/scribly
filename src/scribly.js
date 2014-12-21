@@ -33,24 +33,34 @@ var scribly = {
 				elementSIdName = elements[i].tagName;
 			}
 
-			window.sessionStorage.setItem(elementSIdName + '-' + i, elements[i].innerHTML);
-			elements[i].setAttribute('data-sid', elementSIdName + '-' + i);
+			var editSId = 'edit-' + elementSIdName + '-' + i;
+			var elementSId = elementSIdName + '-' + i;
+
+			if(window.sessionStorage.getItem(editSId))
+				continue;
+
+			window.sessionStorage.setItem(editSId, elements[i].innerHTML);
+			elements[i].setAttribute('data-sid', elementSId);
 
 			//this section decides which editable element
 			//to place in the selected element(s)
 			if(inputType === 'text') {
-				elementInput = '<input type="text" class="" id="' + elementSIdName + '-' + i + '"/>';
+				elementInput = document.createElement('input');
+				elementInput.setAttribute('type', 'text');
+				elementInput.setAttribute('id', elementSId);
 			}
 			else if(inputType === 'textarea') {
-				elementInput = '<textarea class="" id="' + elementSIdName + '-' + i + '"></textarea>';
+				elementInput = document.createElement('textarea');
+				elementInput.setAttribute('id', elementSId);
 			}
 			else {
-				//return a normal text input if none given
-				elementInput = '<input type="text" class="" id="' + elementSIdName + '-' + i + '"/>';
+				elementInput = document.createElement('input');
+				elementInput.setAttribute('type', 'text');
+				elementInput.setAttribute('id', elementSId);
 			}
-
-			elements[i].innerHTML = elementInput;
-			parentElement.getElementById(elementSIdName + '-' + i).value = window.sessionStorage.getItem(elementSIdName + '-' + i);
+			elements[i].innerHTML = "";
+			elements[i].appendChild(elementInput);
+			elementInput.value = window.sessionStorage.getItem('edit-' + elementSId);
 		}
 	},
 
@@ -78,11 +88,12 @@ var scribly = {
 				sId = openElements[i].getAttribute('data-sid');
 				openElementInput = openElements[i].children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem(sId);
+				sIdStoredValue = window.sessionStorage.getItem('edit' + sId);
 				sIdNewValue = openElementInput.value;
 
 				if(sIdStoredValue != sIdNewValue) {
 					window.sessionStorage.setItem(sId, sIdNewValue);
+					window.sessionStorage.removeItem('edit-' + sId);
 				}
 				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
 			}
@@ -119,8 +130,8 @@ var scribly = {
 		for(i=0; i<openElements.length; i++) {
 			if(openElements[i].hasAttribute('data-sid')) {
 				var sId = openElements[i].getAttribute('data-sid');
-				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
-				window.sessionStorage.removeItem(sId);
+				openElements[i].innerHTML = window.sessionStorage.getItem('edit-' + sId);
+				window.sessionStorage.removeItem('edit-' + sId);
 			}
 		}
 	}

@@ -12,6 +12,7 @@ The object comes with several methods:
   * provide the CSS selector of the element(s) that you want editable
   * provide a DOM element as a parent element to search in for the selector
   * use `text` or `textarea` for the inputType, defaults to `text`
+  * this function gives the selected element an attribute: `data-sid`. this is its scribly id and is used for its key in the `sessionStorage`. it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists (tag being the fall-back), and the elements index in the element collection from the selector. formatted like: `p-0` meaning: `[id:class:tag]-[index]`. while being edited, the sessiong storage would be prefixed by `edit` like: `edit-p-0`
 
 * `save(parent)`
   * updates the elements text, saves the edited portions to the `sessionStorage`
@@ -20,6 +21,9 @@ The object comes with several methods:
 * `close(parent)`
   * reverts the elements back to their original state, saves no edits
   * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
+
+* `sessionStorage`
+  * while an element is being edited, its current text is stored 
 
 Use
 ===

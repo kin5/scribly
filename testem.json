@@ -1,0 +1,6 @@
+{
+	"src_files": [
+		"src/scribly.js",
+		"tests/*_test.js"
+	]
+}
