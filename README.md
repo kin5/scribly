@@ -18,7 +18,7 @@ The object comes with several methods:
   * updates the elements text, saves the edited portions to the `sessionStorage`
   * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
 
-* `close(parent)`
+* `cancel(parent)`
   * reverts the elements back to their original state, saves no edits
   * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
 
