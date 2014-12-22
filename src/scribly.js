@@ -8,7 +8,7 @@ var scribly = {
 	//	inputType: string. optional. The type of editable input to use with your element.
 	//	Current options are 'text' and 'textarea'. Defaults to 'text'
 	edit: function(selector, parent, inputType) {
-		var elements, parentElement, elementSIdName, elementInput; //SId is short for Scribly ID
+		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
 		if(parent != null)
 			parentElement = parent;
@@ -33,8 +33,8 @@ var scribly = {
 				elementSIdName = elements[i].tagName;
 			}
 
-			var editSId = 'edit-' + elementSIdName + '-' + i;
-			var elementSId = elementSIdName + '-' + i;
+			editSId = 'edit-' + elementSIdName + '-' + i;
+			elementSId = elementSIdName + '-' + i;
 
 			if(window.sessionStorage.getItem(editSId))
 				continue;
@@ -85,25 +85,27 @@ var scribly = {
 					continue;
 				}
 				
-				sId = openElements[i].getAttribute('data-sid');
+				elementSId = openElements[i].getAttribute('data-sid');
+				sId = 's-' + elementSId;
 				openElementInput = openElements[i].children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem('edit' + sId);
+				sIdStoredValue = window.sessionStorage.getItem('edit' + elementSId);
 				sIdNewValue = openElementInput.value;
 
 				if(sIdStoredValue != sIdNewValue) {
 					window.sessionStorage.setItem(sId, sIdNewValue);
-					window.sessionStorage.removeItem('edit-' + sId);
+					window.sessionStorage.removeItem('edit-' + elementSId);
 				}
 				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
 			}
 		}
 		else {
 			if(openElements.hasAttribute('data-sid')) {
-				sId = openElements.getAttribute('data-sid');
+				elementSId = openElements[i].getAttribute('data-sid');
+				sId = 's-' + elementSId;
 				openElementInput = openElements.children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem(sId);
+				sIdStoredValue = window.sessionStorage.getItem('edit' + elementSId);
 				sIdNewValue = openElementInput.value;
 
 				if(sIdStoredValue != sIdNewValue) {
