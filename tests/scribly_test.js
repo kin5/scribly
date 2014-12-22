@@ -40,7 +40,7 @@ describe('scribly', function() {
 		});
 
 		it('should store elements new value in sessionStorage with a final sId', function() {
-			expect(window.sessionStorage.getItem('p-id-0')).toEqual('text to edit');
+			expect(window.sessionStorage.getItem('s-p-id-0')).toEqual('text to edit');
 		})
 
 	});
