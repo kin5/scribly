@@ -43,11 +43,11 @@ To provide the user with an option to opt-out of their current edits, you could 
 ```
 This will reset all editable elements and their `innerHTML` providing no changes. It will also not store any of the edits.
 
-Scribly also provides functionality for editing, cancelling and saving certain elements while leaving others unaffected by passing a DOM element to the `parent` parameter.
+Scribly also provides functionality for editing, cancelling and saving certain elements while leaving others unaffected by passing a DOM element to the `parent` parameter (note this is not a practical use, as this would not allow the user any time for editing; just an example of the parent parameter).
 ```javascript
 var div1 = document.getElementById('div1');
 scribly.edit('p', div1); //to edit 
 scribly.save(div1); //to save
 scrible.cancel(div1); //to cancel
 ```
-This would edit, save, and close elements that are only in `div1`, leaving any others open for editing.
+This would edit, save, and cancel elements that are only in `div1`, leaving any others open for editing. 
