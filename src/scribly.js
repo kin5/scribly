@@ -89,7 +89,7 @@ var scribly = {
 				sId = 's-' + elementSId;
 				openElementInput = openElements[i].children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem('edit' + elementSId);
+				sIdStoredValue = window.sessionStorage.getItem('edit-' + elementSId);
 				sIdNewValue = openElementInput.value;
 
 				if(sIdStoredValue != sIdNewValue) {
@@ -105,7 +105,7 @@ var scribly = {
 				sId = 's-' + elementSId;
 				openElementInput = openElements.children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem('edit' + elementSId);
+				sIdStoredValue = window.sessionStorage.getItem('edit-' + elementSId);
 				sIdNewValue = openElementInput.value;
 
 				if(sIdStoredValue != sIdNewValue) {
