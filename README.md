@@ -13,7 +13,8 @@ The object comes with several methods:
   * provide a DOM element as a parent element to search in for the selector
   * use `text` or `textarea` for the inputType, defaults to `text`
   * this function gives the selected element an attribute: `data-sid`. this is its scribly id and is used for its key in the `sessionStorage`. 
-  * it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists, and the elements index in the element collection from the selector. formatted like: `[id:class:tag]-[index]`, so a `p` tag's id would look like: `P-0`. while being edited, the key in the `sessionStorage` would be prefixed by `edit` like: `edit-P-0`
+  * it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists, and the elements index in the element collection from the selector. formatted like: `[id:class:tag]-[index]`, so a `p` tag with no `class` or `id` attribute would be stored with the key: `P-0`. while being edited, the key in the `sessionStorage` would be prefixed by `edit` like: `edit-P-0`
+  * note that it is best to provide the elements that you want editable with an `id` attribute. this allows you to use the elements `id` when retrieving it from the `sessionStorage`
 
 * `save(parent)`
   * updates the elements text, saves the edited portions to the `sessionStorage`
