@@ -118,7 +118,7 @@ var scribly = {
 
 	//	parent: optional. An HTML element. Defaults to the document
 	cancel: function(parent) {
-    	var openElements;
+    	var openElements, sId;
 
     	//parent capability similar to save
 		if(parent != null) {
@@ -131,7 +131,7 @@ var scribly = {
 		var i = 0;
 		for(i=0; i<openElements.length; i++) {
 			if(openElements[i].hasAttribute('data-sid')) {
-				var sId = openElements[i].getAttribute('data-sid');
+				sId = openElements[i].getAttribute('data-sid');
 				openElements[i].innerHTML = window.sessionStorage.getItem('edit-' + sId);
 				window.sessionStorage.removeItem('edit-' + sId);
 			}
