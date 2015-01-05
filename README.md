@@ -8,10 +8,11 @@ Features
 
 The object comes with several methods:
 
-* `edit(selector, parent, inputType)`
+* `edit(selector, inputType, parent)`
   * provide the CSS selector of the element(s) that you want editable
   * provide a DOM element as a parent element to search in for the selector
-  * use `text` or `textarea` for the inputType, defaults to `text`
+  * use `text`, `textarea` or an array of strings for the inputType, defaults to `text`
+  * if an array is passed for the `inputType` it will create a `select` element with the strings in the array being used as the `option` elements text and value 
   * this function gives the selected element an attribute: `data-sid`. this is its scribly id and is used for its key in the `sessionStorage`. 
   * it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists, and the elements index in the element collection from the selector. formatted like: `[id:class:tag]-[index]`, so a `p` tag with no `class` or `id` attribute would be stored with the key: `P-0`. while being edited, the key in the `sessionStorage` would be prefixed by `edit` like: `edit-P-0`
   * note that it is best to provide the elements that you want editable with an `id` attribute. this allows you to use the elements `id` when retrieving it from the `sessionStorage`
@@ -38,6 +39,12 @@ Say you want every `p` element to become editable when a user presses a button, 
 ```
 This code will generate input boxes with a type of text to replace the `innerHTML` property of every element with a `p` tag. When the save button is pressed, scribly will store the newly edited text in the `sessionStorage` and update the `innerHTML` of the elements that were edited.
 
+If you would like every `p` element to become editable via a `select` element, you would do so by passing an array of strings for the `inputType` parameter. The strings would then be used to create `option` elements to populate the `select` element. A string is used to provide its respective `option` element with a value and inner text. You could provide a button like this one:
+```HTML
+<button onclick="scribly.edit('p', ['option1', 'option2'])">Edit</button>
+```
+This would turn every `p` element into a `select` element populated with `option` elements whose value and text derive from the array you pass in.
+
 To provide the user with an option to opt-out of their current edits, you could provide a cancel button:
 ```HTML
 <button onclick="scribly.cancel()">Cancel</button>
@@ -47,7 +54,7 @@ This will reset all editable elements and their `innerHTML` providing no changes
 Scribly also provides functionality for editing, cancelling and saving certain elements while leaving others unaffected by passing a DOM element to the `parent` parameter (note this is not a practical use, as this would not allow the user any time for editing; just an example of the parent parameter).
 ```javascript
 var div1 = document.getElementById('div1');
-scribly.edit('p', div1); //to edit 
+scribly.edit('p', 'text', div1); //to edit 
 scribly.save(div1); //to save
 scrible.cancel(div1); //to cancel
 ```
