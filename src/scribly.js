@@ -7,7 +7,7 @@ var scribly = {
 	//
 	//	inputType: string. optional. The type of editable input to use with your element.
 	//	Current options are 'text' and 'textarea'. Defaults to 'text'
-	edit: function(selector, parent, inputType) {
+	edit: function(selector, inputType, parent) {
 		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
 		if(parent != null)
@@ -24,19 +24,22 @@ var scribly = {
 			//ID for Scribly to use when storing the data in the session
 			if(elements[i].hasAttribute('id')) {
 				elementSIdName = elements[i].getAttribute('id');
+				editSId = 'edit-' + elementSIdName;
+				elementSId = elementSIdName;
 			}
 			else if(elements[i].hasAttribute('class')) {
 				elementSIdName = elements[i].getAttribute('class');
+				editSId = 'edit-' + elementSIdName + '-' + i;
+				elementSId = elementSIdName + '-' + i;
 			}
 			else {
 				//if no id or class exists on the element, use tag
 				elementSIdName = elements[i].tagName;
+				editSId = 'edit-' + elementSIdName + '-' + i;
+				elementSId = elementSIdName + '-' + i;
 			}
 
-			editSId = 'edit-' + elementSIdName + '-' + i;
-			elementSId = elementSIdName + '-' + i;
-
-			if(window.sessionStorage.getItem(editSId))
+			if(elements[i].hasAttribute('data-sid'))
 				continue;
 
 			window.sessionStorage.setItem(editSId, elements[i].innerHTML);
@@ -47,11 +50,9 @@ var scribly = {
 			if(inputType === 'text') {
 				elementInput = document.createElement('input');
 				elementInput.setAttribute('type', 'text');
-				elementInput.setAttribute('id', elementSId);
 			}
 			else if(inputType === 'textarea') {
 				elementInput = document.createElement('textarea');
-				elementInput.setAttribute('id', elementSId);
 			}
 			else {
 				elementInput = document.createElement('input');
@@ -64,7 +65,7 @@ var scribly = {
 		}
 	},
 
-	//	parent: optional. An HTML element. Defaults to the document
+	//	parent: optional. A DOM element. Defaults to the document
 	save: function(parent) {
     	var openElements, sId, openElementInput, sIdStoredValue, sIdNewValue;
 
@@ -85,38 +86,37 @@ var scribly = {
 					continue;
 				}
 				
-				elementSId = openElements[i].getAttribute('data-sid');
-				sId = 's-' + elementSId;
+				sId = openElements[i].getAttribute('data-sid');
 				openElementInput = openElements[i].children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem('edit-' + elementSId);
+				sIdStoredValue = window.sessionStorage.getItem('edit-' + sId);
 				sIdNewValue = openElementInput.value;
 
-				if(sIdStoredValue != sIdNewValue) {
-					window.sessionStorage.setItem(sId, sIdNewValue);
-					window.sessionStorage.removeItem('edit-' + elementSId);
-				}
+				window.sessionStorage.setItem(sId, sIdNewValue);
+				window.sessionStorage.removeItem('edit-' + sId);
+				
 				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
+				openElements[i].removeAttribute('data-sid');
 			}
 		}
 		else {
 			if(openElements.hasAttribute('data-sid')) {
-				elementSId = openElements[i].getAttribute('data-sid');
-				sId = 's-' + elementSId;
+				sId = openElements[i].getAttribute('data-sid');
 				openElementInput = openElements.children[0];
 
-				sIdStoredValue = window.sessionStorage.getItem('edit-' + elementSId);
+				sIdStoredValue = window.sessionStorage.getItem('edit-' + sId);
 				sIdNewValue = openElementInput.value;
 
-				if(sIdStoredValue != sIdNewValue) {
-					window.sessionStorage.setItem(sId, sIdNewValue);
-				}
+				window.sessionStorage.setItem(sId, sIdNewValue);
+				window.sessionStorage.removeItem('edit-' + sId);
+
 				openElements.innerHTML = window.sessionStorage.getItem(sId);
+				openElements.removeAttribute('data-sid');
 			}
 		}
 	},
 
-	//	parent: optional. An HTML element. Defaults to the document
+	//	parent: optional. A DOM element. Defaults to the document
 	cancel: function(parent) {
     	var openElements, sId;
 
@@ -133,6 +133,7 @@ var scribly = {
 			if(openElements[i].hasAttribute('data-sid')) {
 				sId = openElements[i].getAttribute('data-sid');
 				openElements[i].innerHTML = window.sessionStorage.getItem('edit-' + sId);
+				openElements[i].removeAttribute('data-sid');
 				window.sessionStorage.removeItem('edit-' + sId);
 			}
 		}
