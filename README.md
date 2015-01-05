@@ -12,7 +12,7 @@ The object comes with several methods:
   * provide the CSS selector of the element(s) that you want editable
   * provide a DOM element as a parent element to search in for the selector
   * use `text`, `textarea` or an array of strings for the inputType, defaults to `text`
-  * if an array is passed for the `inputType` it will create a `select` element with the strings in the array being used as the `option` elements text and value 
+  * if an array is passed for the `inputType` it will create a `select` element with the strings in the array being used as the `option` elements text and value. the first and selected option will be the `p` elements current value
   * this function gives the selected element an attribute: `data-sid`. this is its scribly id and is used for its key in the `sessionStorage`. 
   * it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists, and the elements index in the element collection from the selector. formatted like: `[id:class:tag]-[index]`, so a `p` tag with no `class` or `id` attribute would be stored with the key: `P-0`. while being edited, the key in the `sessionStorage` would be prefixed by `edit` like: `edit-P-0`
   * note that it is best to provide the elements that you want editable with an `id` attribute. this allows you to use the elements `id` when retrieving it from the `sessionStorage`
@@ -43,7 +43,7 @@ If you would like every `p` element to become editable via a `select` element, y
 ```HTML
 <button onclick="scribly.edit('p', ['option1', 'option2'])">Edit</button>
 ```
-This would turn every `p` element into a `select` element populated with `option` elements whose value and text derive from the array you pass in.
+This would turn every `p` element into a `select` element populated with `option` elements whose value and text derive from the elements current value and the array you pass in.
 
 To provide the user with an option to opt-out of their current edits, you could provide a cancel button:
 ```HTML
