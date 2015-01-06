@@ -12,25 +12,30 @@ describe('scribly', function() {
 	describe('scribly.edit()', function() {
 
 		it('should create editable textareas', function() {
-			scribly.edit('#p-id', parentElement, 'textarea');
+			scribly.edit('#p-id', 'textarea', parentElement);
 			scribly.cancel(parentElement);
 		});
 
 		it('should create editable text input elements', function() {
-			scribly.edit('#p-id', parentElement, 'text');
+			scribly.edit('#p-id', 'text', parentElement);
+			scribly.cancel(parentElement);
+		});
+
+		it('should create editable select elements', function() {
+			scribly.edit('#p-id', ['option1'], parentElement);
 			scribly.cancel(parentElement);
 		});
 
 		it('should select elements by tag', function() {
-			scribly.edit('p', parentElement);
+			scribly.edit('p', 'text', parentElement);
 		});
 
 		it('should select elements by id', function() {
-			scribly.edit('#p-id', parentElement);
+			scribly.edit('#p-id', 'text', parentElement);
 		});
 
 		it('should select elements by class', function() {
-			scribly.edit('.p-class', parentElement);
+			scribly.edit('.p-class', 'text', parentElement);
 		});
 
 		it('should store elements current value in sessionStorage with an edit sId', function() {

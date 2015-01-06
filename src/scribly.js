@@ -10,6 +10,11 @@ var scribly = {
 	edit: function(selector, inputType, parent) {
 		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
+		if(inputType != null)
+			inputType = inputType;
+		else
+			inputType = 'text';
+
 		if(parent != null)
 			parentElement = parent;
 		else
@@ -77,11 +82,6 @@ var scribly = {
 				
 					elementInput.appendChild(option);
 				}
-			}
-			else {
-				elementInput = document.createElement('input');
-				elementInput.setAttribute('type', 'text');
-				elementInput.setAttribute('id', elementSId);
 			}
 			elements[i].innerHTML = "";
 			elements[i].appendChild(elementInput);
