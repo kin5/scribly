@@ -90,8 +90,10 @@ var scribly = {
 	},
 
 	//	parent: optional. A DOM element. Defaults to the document
-	save: function(parent) {
+	save: function(parent, callback) {
     	var openElements, sId, openElementInput, sIdStoredValue, sIdNewValue;
+
+    	callback = callback || function() {};
 
     	//can use a parent element object to sift through to decrease workload
     	//or to only save edited fields in a specific place while preserving others
@@ -138,6 +140,7 @@ var scribly = {
 				openElements.removeAttribute('data-sid');
 			}
 		}
+		callback();
 	},
 
 	//	parent: optional. A DOM element. Defaults to the document
