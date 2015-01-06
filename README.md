@@ -1,7 +1,7 @@
 scribly
 =======
 
-Scribly is a javascript object made to allow for the dynamic creation of editable text elements within a webpage. It includes storing the values of the edited fields in the `sessionStorage` to send back to the server (yourself). Give the user control over their content without messing with the bulk of a CMS.
+Scribly is a javascript object made to allow for the dynamic creation of editable text elements within a webpage. It includes storing the values of the edited fields in the `sessionStorage` to send back to the server (yourself). Give the user control over their content and information.
 
 Features
 ========
@@ -17,9 +17,10 @@ The object comes with several methods:
   * it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists, and the elements index in the element collection from the selector. formatted like: `[id:class:tag]-[index]`, so a `p` tag with no `class` or `id` attribute would be stored with the key: `P-0`. while being edited, the key in the `sessionStorage` would be prefixed by `edit` like: `edit-P-0`
   * note that it is best to provide the elements that you want editable with an `id` attribute. this allows you to use the elements `id` when retrieving it from the `sessionStorage`
 
-* `save(parent)`
+* `save(parent, callback)`
   * updates the elements text, saves the edited portions to the `sessionStorage`
   * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
+  * provide a callback function to handle the new data immediately after saving the edits
   * saving an element changes its key in the `sessionStorage` by removing the `edit` prefix and adding an `s` prefix, like: `s-p-0`
 
 * `cancel(parent)`
@@ -32,12 +33,14 @@ The object comes with several methods:
 Use
 ===
 
-Say you want every `p` element to become editable when a user presses a button, and then saves when the use presses a save button. You would do:
+I created scribly because I found myself wanting an easy way to make inline text elements editable without utilizing `contenteditable`. A specific scenario in which scribly is helpful would be a users profile on a social-based website. Using scribly you can provide a button for the user to click that will allow them to easily edit their information, inline, without sending them to a new page or an editor. It's fast, simple and easy for both you and your users.
+
+Say you want every `p` element to become editable when a user presses a button, and then saves when the user presses a save button. You would do:
 ```HTML
 <button onclick="scribly.edit('p')">Edit</button>
 <button onclick="scribly.save()">Save</button>
 ```
-This code will generate input boxes with a type of text to replace the `innerHTML` property of every element with a `p` tag. When the save button is pressed, scribly will store the newly edited text in the `sessionStorage` and update the `innerHTML` of the elements that were edited.
+This code will generate input boxes with a type of text to replace the `innerHTML` property of every element with a `p` tag. When the save button is pressed, scribly will store the newly edited text in the `sessionStorage` using the method described above and update the `innerHTML` of the elements that were edited.
 
 If you would like every `p` element to become editable via a `select` element, you would do so by passing an array of strings for the `inputType` parameter. The strings would then be used to create `option` elements to populate the `select` element. A string is used to provide its respective `option` element with a value and inner text. You could provide a button like this one:
 ```HTML
