@@ -10,15 +10,8 @@ var scribly = {
 	edit: function(selector, inputType, parent) {
 		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
-		if(inputType != null)
-			inputType = inputType;
-		else
-			inputType = 'text';
-
-		if(parent != null)
-			parentElement = parent;
-		else
-			parentElement = document;
+		inputType = inputType || 'text';
+		parentElement = parent || document;
 
 		elements = parentElement.querySelectorAll(selector);
 
@@ -94,15 +87,11 @@ var scribly = {
     	var openElements, sId, openElementInput, sIdStoredValue, sIdNewValue;
 
     	callback = callback || function() {};
+    	parent = parent || document;
 
     	//can use a parent element object to sift through to decrease workload
     	//or to only save edited fields in a specific place while preserving others
-		if(parent != null) {
-			openElements = parent.getElementsByTagName('*');
-		}
-		else {
-			openElements = document.getElementsByTagName('*');
-		}
+		openElements = parent.getElementsByTagName('*');
 
 		if(openElements.length > 1) {
 			
@@ -147,13 +136,10 @@ var scribly = {
 	cancel: function(parent) {
     	var openElements, sId;
 
+    	parent = parent || document;
+
     	//parent capability similar to save
-		if(parent != null) {
-			openElements = parent.getElementsByTagName('*');
-		}
-		else {
-			openElements = document.getElementsByTagName('*');
-		}
+		openElements = parent.getElementsByTagName('*');
 
 		var i = 0;
 		for(i=0; i<openElements.length; i++) {
