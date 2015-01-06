@@ -54,6 +54,30 @@ var scribly = {
 			else if(inputType === 'textarea') {
 				elementInput = document.createElement('textarea');
 			}
+			else if(inputType != null && Array.isArray(inputType)) {
+				var optionNum, option;
+
+				optionNum = inputType.length
+
+				elementInput = document.createElement('select');
+
+				var j = 0;
+				for(j=0; j<=inputType.length; j++) {
+					option = document.createElement('option');
+
+					if(j == 0) {
+						option.setAttribute('selected', '');
+						option.setAttribute('value', window.sessionStorage.getItem('edit-' + elementSId));
+						option.innerHTML = window.sessionStorage.getItem('edit-' + elementSId);
+					}
+					else {
+						option.setAttribute('value', inputType[j - 1]);
+						option.innerHTML = inputType[j - 1];
+					}
+				
+					elementInput.appendChild(option);
+				}
+			}
 			else {
 				elementInput = document.createElement('input');
 				elementInput.setAttribute('type', 'text');
