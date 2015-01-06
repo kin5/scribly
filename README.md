@@ -3,37 +3,40 @@ scribly
 
 Scribly is a javascript object made to allow for the dynamic creation of editable text elements within a webpage. It includes storing the values of the edited fields in the `sessionStorage` to send back to the server (yourself). Give the user control over their content and information.
 
+Purpose
+=======
+
+I created scribly because I found myself wanting an easy way to make inline text elements editable without utilizing `contenteditable`. A specific scenario in which scribly is helpful would be a users profile on a social-based website. Using scribly you can provide a button for the user to click that will allow them to easily edit their information, inline, without sending them to a new page or an editor. It's fast, simple and easy for both you and your users.
+
 Features
 ========
 
-The object comes with several methods:
+Methods
+-------
 
-* `edit(selector, inputType, parent)`
-  * provide the CSS selector of the element(s) that you want editable
-  * provide a DOM element as a parent element to search in for the selector
-  * use `text`, `textarea` or an array of strings for the inputType, defaults to `text`
-  * if an array is passed for the `inputType` it will create a `select` element with the strings in the array being used as the `option` elements text and value. the first and selected option will be the `p` elements current value
-  * this function gives the selected element an attribute: `data-sid`. this is its scribly id and is used for its key in the `sessionStorage`. 
-  * it tries to be as specific as possible by using an elements id, class, or tag, depending on which exists, and the elements index in the element collection from the selector. formatted like: `[id:class:tag]-[index]`, so a `p` tag with no `class` or `id` attribute would be stored with the key: `P-0`. while being edited, the key in the `sessionStorage` would be prefixed by `edit` like: `edit-P-0`
-  * note that it is best to provide the elements that you want editable with an `id` attribute. this allows you to use the elements `id` when retrieving it from the `sessionStorage`
+##### edit(*selector*, *inputType*, *parent*)
+  * `selector`
+   * a CSS selector used to select the element(s) you want to become editable
+  * `inputType`
+   * the method of input for the editable element, defaults to text. currently the options (with acceptable parameter values highlighted) are:
+     * `text` input element
+     * `textarea` element
+     * select element created by passing an array of strings for options, like: `['option1', 'option2']`
+  * `parent`
+   * a DOM element used to limit the selector search to only children of that element. defaults to the document
+ 
+##### save(*parent*, *callback*)
+  * `parent`
+   * a DOM element used to save only children of that element. defaults to document
+  * `callback`
+   * a callback function to handle the saved data from the sessionStorage
 
-* `save(parent, callback)`
-  * updates the elements text, saves the edited portions to the `sessionStorage`
-  * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
-  * provide a callback function to handle the new data immediately after saving the edits
-  * saving an element changes its key in the `sessionStorage` by removing the `edit` prefix and adding an `s` prefix, like: `s-p-0`
-
-* `cancel(parent)`
-  * reverts the elements back to their original state, saves no edits
-  * provide a parent element (must be HTML element object) to search through or leave blank to save all within the document
-
-* `sessionStorage`
-  * while an element is being edited, its current text is stored 
+##### cancel(*parent*)
+  * `parent`
+   * a DOM element used to cancel only children of that element. defaults to document
 
 Use
 ===
-
-I created scribly because I found myself wanting an easy way to make inline text elements editable without utilizing `contenteditable`. A specific scenario in which scribly is helpful would be a users profile on a social-based website. Using scribly you can provide a button for the user to click that will allow them to easily edit their information, inline, without sending them to a new page or an editor. It's fast, simple and easy for both you and your users.
 
 Say you want every `p` element to become editable when a user presses a button, and then saves when the user presses a save button. You would do:
 ```HTML
