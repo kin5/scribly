@@ -35,8 +35,8 @@ Methods
   * `parent`
    * a DOM element used to cancel only children of that element. defaults to document
 
-Use
-===
+Detailed Use
+============
 
 Say you want every `p` element to become editable when a user presses a button, and then saves when the user presses a save button. You would do:
 ```HTML
