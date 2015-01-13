@@ -55,7 +55,7 @@ var scribly = {
 			else if(inputType != null && Array.isArray(inputType)) {
 				var optionNum, option;
 
-				optionNum = inputType.length
+				optionNum = inputType.length;
 
 				elementInput = document.createElement('select');
 
@@ -116,7 +116,7 @@ var scribly = {
 		}
 		else {
 			if(openElements.hasAttribute('data-sid')) {
-				sId = openElements[i].getAttribute('data-sid');
+				sId = openElements.getAttribute('data-sid');
 				openElementInput = openElements.children[0];
 
 				sIdStoredValue = window.sessionStorage.getItem('edit-' + sId);
