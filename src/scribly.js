@@ -5,8 +5,8 @@ var scribly = {
 	//	parent: DOM element. optional. The parent element to create editables in.
 	//	Defaults to document
 	//
-	//	inputType: string. optional. The type of editable input to use with your element.
-	//	Current options are 'text' and 'textarea'. Defaults to 'text'
+	//	inputType: string or array. optional. The type of editable input to use with your element.
+	//	Current options are an array for a select elements options, 'text' and 'textarea'. Defaults to 'text'
 	edit: function(selector, inputType, parent) {
 		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
@@ -83,6 +83,9 @@ var scribly = {
 	},
 
 	//	parent: optional. A DOM element. Defaults to the document
+	//
+	//	callback: optional. A callback function to be executed after elements new data
+	//	is retrieved and stored in sessionStorage under its appropriate sID
 	save: function(parent, callback) {
     	var openElements, sId, openElementInput, sIdStoredValue, sIdNewValue;
 
