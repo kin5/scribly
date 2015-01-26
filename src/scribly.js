@@ -79,6 +79,13 @@ var scribly = {
 			elements[i].innerHTML = "";
 			elements[i].appendChild(elementInput);
 			elementInput.value = window.sessionStorage.getItem('edit-' + elementSId);
+			
+			//This is to enable you to make links editable
+			//ran into a problem where clicking the input box would take you to the linked page
+			//solution to current problem; no known issues YET
+			elements[i].addEventListener("click", function(e) {
+				e.preventDefault();
+			});
 		}
 	},
 
