@@ -122,6 +122,7 @@ var scribly = {
 				
 				openElements[i].innerHTML = window.sessionStorage.getItem(sId);
 				openElements[i].removeAttribute('data-sid');
+				openElements[i].removeEventListener("click");
 			}
 		}
 		else {
@@ -137,6 +138,7 @@ var scribly = {
 
 				openElements.innerHTML = window.sessionStorage.getItem(sId);
 				openElements.removeAttribute('data-sid');
+				openElements.removeEventListener("click");
 			}
 		}
 		callback();
@@ -157,6 +159,7 @@ var scribly = {
 				sId = openElements[i].getAttribute('data-sid');
 				openElements[i].innerHTML = window.sessionStorage.getItem('edit-' + sId);
 				openElements[i].removeAttribute('data-sid');
+				openElements[i].removeEventListener("click");
 				window.sessionStorage.removeItem('edit-' + sId);
 			}
 		}
