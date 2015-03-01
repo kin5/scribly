@@ -96,8 +96,14 @@ var scribly = {
 	save: function(parent, callback) {
     	var openElements, sId, openElementInput, sIdStoredValue, sIdNewValue;
 
-    	callback = callback || function() {};
-    	parent = parent || document;
+    	if(Object.prototype.toString.call(arguments[0]) == "[object Function]") {
+    		callback = arguments[0];
+    		parent = document;
+    	}
+    	else {
+	    	callback = callback || function() {};
+	    	parent = parent || document;
+    	}
 
     	//can use a parent element object to sift through to decrease workload
     	//or to only save edited fields in a specific place while preserving others
