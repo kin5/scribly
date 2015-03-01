@@ -25,7 +25,7 @@ Methods
   * `parent`
    * a DOM element used to limit the selector search to only children of that element. defaults to the document
  
-##### save(*parent*, *callback*)
+##### save(*parent*, *callback*) OR save(*callback*)
   * `parent`
    * a DOM element used to save only children of that element. defaults to document
   * `callback`
