@@ -14,9 +14,10 @@ Features
 Methods
 -------
 
-##### edit(*selector*, *inputType*, *parent*)
+##### edit(*selector*, *inputType*, *parent*) OR edit(*selector*, *parent*)
   * `selector`
-   * a CSS selector used to select the element(s) you want to become editable
+   * a CSS selector used to select the element(s) you want to become editable OR
+   * a DOM Element Object can be passed in as well
   * `inputType`
    * the method of input for the editable element, defaults to text. currently the options (with acceptable parameter values highlighted) are:
      * `text` input element
@@ -38,6 +39,7 @@ Methods
 Detailed Use
 ============
 
+####Basic Functionality
 Say you want every `p` element to become editable when a user presses a button, and then saves when the user presses a save button. You would do:
 ```HTML
 <button onclick="scribly.edit('p')">Edit</button>
@@ -65,3 +67,19 @@ scribly.save(div1); //to save
 scrible.cancel(div1); //to cancel
 ```
 This would edit, save, and cancel elements that are only in `div1`, leaving any others open for editing. 
+
+####Edit On Click
+
+As of release 1.1, `scribly.edit()` will accept a DOM Element Object to be used in place of the `selector` parameter. This makes it easier on developers who use libraries, such as jQuery, so they can just pass in an DOM Element that they have previously selected instead of trying to remember that specific elements ID or some other attribute.
+
+This also makes it easier to do things like allowing your users to edit and element simply by clicking on it. You can accomplish this like so:
+
+```javascript
+window.addEventListener("load", function() {
+	document.addEventListener("click", function(e) {
+		scribly.edit(e.target, document.getElementById("div1"));
+	});
+});
+```
+
+Doing something like this, along with providing a way to cancel and save the changes (using the provided methods), will simplify the inline editing process to almost no effort. Users can literally point and click on the part of their content they want to edit and do just that.
