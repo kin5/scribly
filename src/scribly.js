@@ -10,10 +10,19 @@ var scribly = {
 	edit: function(selector, inputType, parent) {
 		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
-		inputType = inputType || 'text';
-		parentElement = parent || document;
+		if(arguments[1].tagName) {
+			parentElement = arguments[1];
+			inputType = 'text';
+		}
+		else {
+			parentElement = parent || document;
+			inputType = inputType || 'text';
+		}
 
-		elements = parentElement.querySelectorAll(selector);
+    	if(arguments[0].tagName && arguments[0].parentNode === parentElement)
+    		elements = [arguments[0]];
+    	else
+			elements = parentElement.querySelectorAll(selector);
 
 		var i = 0;
 		for(i=0; i<elements.length; i++) {
