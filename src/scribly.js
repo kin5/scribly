@@ -10,7 +10,7 @@ var scribly = {
 	edit: function(selector, inputType, parent) {
 		var elements, parentElement, editSId, elementSId, elementSIdName, elementInput; //SId is short for Scribly ID
 
-		if(arguments[1].tagName) {
+		if(arguments[1] != undefined && arguments[1].tagName) {
 			parentElement = arguments[1];
 			inputType = 'text';
 		}
